@@ -42,3 +42,7 @@ def main():
 
     NEW_SURF, NEW_RECT = makeText('New Game', Title_Color, Button_Color, Window_Width - 120, Window_Height - 60)
     SOLVE_SURF, SOLVE_RECT = makeText('Solve', Title_Color, Button_Color, Window_Width - 120, Window_Height - 30)
+
+    mainBoard, solutionSeq = generateNewPuzzle(80)
+    SOLVEDBOARD = getStartingBoard() # a solved board is the same as the board in a start state.
+    allMoves = [] # list of moves made from the solved configuration
