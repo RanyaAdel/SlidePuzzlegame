@@ -29,3 +29,16 @@ Up = 'up'
 Down = 'down'
 Left = 'left'
 Right = 'right'
+
+
+def main():
+    global Speed_Clock, Display_SURF, Font, NEW_SURF, NEW_RECT, SOLVE_SURF, SOLVE_RECT
+
+    pygame.init()
+    Speed_Clock = pygame.time.Clock()
+    Display_SURF = pygame.display.set_mode((Window_Width, Window_Height))
+    pygame.display.set_caption('Slide Puzzle')
+    Font = pygame.font.Font('freesansbold.ttf', Font_Size)
+
+    NEW_SURF, NEW_RECT = makeText('New Game', Title_Color, Button_Color, Window_Width - 120, Window_Height - 60)
+    SOLVE_SURF, SOLVE_RECT = makeText('Solve', Title_Color, Button_Color, Window_Width - 120, Window_Height - 30)
