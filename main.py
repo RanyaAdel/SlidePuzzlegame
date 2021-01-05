@@ -33,18 +33,15 @@ Right = 'right'
 
 def main():
     global Speed_Clock, Display_SURF, Font, NEW_SURF, NEW_RECT, SOLVE_SURF, SOLVE_RECT
-
     pygame.init()
     Speed_Clock = pygame.time.Clock()
     Display_SURF = pygame.display.set_mode((Window_Width, Window_Height))
     pygame.display.set_caption('Slide Puzzle')
     Font = pygame.font.Font('freesansbold.ttf', Font_Size)
-
     NEW_SURF, NEW_RECT = makeText('New Game', Title_Color, Button_Color, Window_Width - 120, Window_Height - 60)
     SOLVE_SURF, SOLVE_RECT = makeText('Solve', Title_Color, Button_Color, Window_Width - 120, Window_Height - 30)
 
     mainBoard, solutionSeq = generateNewPuzzle(80)
-<<<<<<< HEAD
     SOLVEDBOARD = getStartingBoard()
     allMoves = []
     while True:
@@ -86,7 +83,6 @@ def main():
             allMoves.append(slideTo)
         pygame.display.update()
         Speed_Clock.tick(Speed)
-=======
     SOLVEDBOARD = getStartingBoard()
     allMoves = []
     while True:
@@ -96,7 +92,7 @@ def main():
             msg = 'Solved!'
 
         drawBoard(mainBoard, msg)
-checkForQuit()
+        checkForQuit()
         for event in pygame.event.get():
             if event.type == MOUSEBUTTONUP:
                 spotx, spoty = getSpotClicked(mainBoard, event.pos[0], event.pos[1])
@@ -173,3 +169,9 @@ def getBlankPosition(board):
                     board[blankx][blanky], board[blankx + 1][blanky] = board[blankx + 1][blanky], board[blankx][blanky]
                 elif move == Right:
                     board[blankx][blanky], board[blankx - 1][blanky] = board[blankx - 1][blanky], board[blankx][blanky]
+def isValidMove(board, move):
+    blankx, blanky = getBlankPosition(board)
+    return (move == Up and blanky != len(board[0]) - 1) or \
+           (move == Down and blanky != 0) or \
+           (move == Left and blankx != len(board) - 1) or \
+           (move == Right and blankx != 0)
