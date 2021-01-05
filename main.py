@@ -130,3 +130,11 @@ checkForQuit()
             allMoves.append(slideTo)
         pygame.display.update()
         Speed_Clock.tick(Speed)
+def terminate():
+    pygame.quit()
+    sys.exit()
+
+
+def checkForQuit():
+    for event in pygame.event.get(QUIT):
+        terminate()
