@@ -138,3 +138,25 @@ def terminate():
 def checkForQuit():
     for event in pygame.event.get(QUIT):
         terminate()
+
+def getStartingBoard():
+
+            counter = 1
+            board = []
+            for x in range(Board_Width):
+                column = []
+                for y in range(Board_Height):
+                    column.append(counter)
+                    counter += Board_Width
+                board.append(column)
+                counter -= Board_Width * (Board_Height - 1) + Board_Width - 1
+
+            board[Board_Width - 1][Board_Height - 1] = BLANK
+            return board
+
+def getBlankPosition(board):
+    # Return the x and y of board coordinates of the blank space.
+    for x in range(Board_Width):
+        for y in range(Board_Height):
+            if board[x][y] == BLANK:
+                return (x, y)
