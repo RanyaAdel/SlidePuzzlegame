@@ -226,3 +226,101 @@ def makeText(text, color, bgcolor, top, left):
     textRect = textSurf.get_rect()
     textRect.topleft = (top, left)
     return (textSurf, textRect)
+
+def drawBoard(board, message):
+    Display_SURF.fill(Background_Color)
+    if message:
+        textSurf, textRect = makeText(message, Title_Color, Background_Color, 5, 5)
+        Display_SURF.blit(textSurf, textRect)
+
+    for tilex in range(len(board)):
+        for tiley in range(len(board[0])):
+            if board[tilex][tiley]:
+                drawTile(tilex, tiley, board[tilex][tiley])
+
+    left, top = getLeftTopOfTile(0, 0)
+    width = Board_Width * Square_Size
+    height = Board_Height * Square_Size
+    pygame.draw.rect(Display_SURF, Border_Color, (left - 5, top - 5, width + 11, height + 11), 4)
+
+
+    Display_SURF.blit(NEW_SURF, NEW_RECT)
+    Display_SURF.blit(SOLVE_SURF, SOLVE_RECT)
+
+def slideAnimation(board, direction, message, animationSpeed):
+
+
+    blankx, blanky = getBlankPosition(board)
+    if direction == Up:
+        movex = blankx
+        movey = blanky + 1
+    elif direction == Down:
+        movex = blankx
+        movey = blanky - 1
+    elif direction == Left:
+        movex = blankx + 1
+        movey = blanky
+    elif direction == Right:
+        movex = blankx - 1
+        movey = blanky
+
+
+    drawBoard(board, message)
+    baseSurf = Display_SURF.copy()
+
+    moveLeft, moveTop = getLeftTopOfTile(movex, movey)
+    pygame.draw.rect(baseSurf, Background_Color, (moveLeft, moveTop, Square_Size, Square_Size))
+
+    for i in range(0, Square_Size, animationSpeed):
+        # animate the tile sliding over
+        checkForQuit()
+        Display_SURF.blit(baseSurf, (0, 0))
+        if direction == Up:
+            drawTile(movex, movey, board[movex][movey], 0, -i)
+        if direction == Down:
+            drawTile(movex, movey, board[movex][movey], 0, i)
+        if direction == Left:
+            drawTile(movex, movey, board[movex][movey], -i, 0)
+        if direction == Right:
+            drawTile(movex, movey, board[movex][movey], i, 0)
+
+        pygame.display.update()
+        Speed_Clock.tick(Speed)
+
+def generateNewPuzzle(numSlides):
+
+    sequence = []
+    board = getStartingBoard()
+    drawBoard(board, '')
+    pygame.display.update()
+    pygame.time.wait(500)
+    lastMove = None
+    for i in range(numSlides):
+        move = getRandomMove(board, lastMove)
+        slideAnimation(board, move, 'Generating new puzzle...', animationSpeed=int(Square_Size / 3))
+        makeMove(board, move)
+        sequence.append(move)
+        lastMove = move
+    return (board, sequence)
+
+
+def resetAnimation(board, allMoves):
+
+    revAllMoves = allMoves[:]
+    revAllMoves.reverse()
+
+    for move in revAllMoves:
+        if move == Up:
+            oppositeMove = Down
+        elif move == Down:
+            oppositeMove = Up
+        elif move == Right:
+            oppositeMove = Left
+        elif move == Left:
+            oppositeMove = Right
+        slideAnimation(board, oppositeMove, '', animationSpeed=int(Square_Size / 2))
+        makeMove(board, oppositeMove)
+
+
+if __name__ == '__main__':
+     main()
