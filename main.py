@@ -160,3 +160,16 @@ def getBlankPosition(board):
         for y in range(Board_Height):
             if board[x][y] == BLANK:
                 return (x, y)
+
+            def makeMove(board, move):
+                
+                blankx, blanky = getBlankPosition(board)
+
+                if move == Up:
+                    board[blankx][blanky], board[blankx][blanky + 1] = board[blankx][blanky + 1], board[blankx][blanky]
+                elif move == Down:
+                    board[blankx][blanky], board[blankx][blanky - 1] = board[blankx][blanky - 1], board[blankx][blanky]
+                elif move == Left:
+                    board[blankx][blanky], board[blankx + 1][blanky] = board[blankx + 1][blanky], board[blankx][blanky]
+                elif move == Right:
+                    board[blankx][blanky], board[blankx - 1][blanky] = board[blankx - 1][blanky], board[blankx][blanky]
