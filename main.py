@@ -192,3 +192,9 @@ def getRandomMove(board, lastMove=None):
 
     # return a random move from the list of remaining moves
     return random.choice(validMoves)
+
+
+def getLeftTopOfTile(tileX, tileY):
+    left = X + (tileX * Square_Size) + (tileX - 1)
+    top = Y + (tileY * Square_Size) + (tileY - 1)
+    return (left, top)
