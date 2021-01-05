@@ -46,3 +46,10 @@ def main():
     mainBoard, solutionSeq = generateNewPuzzle(80)
     SOLVEDBOARD = getStartingBoard() # a solved board is the same as the board in a start state.
     allMoves = [] # list of moves made from the solved configuration
+    while True:
+        slideTo = None
+        msg = 'Click tile or press arrow keys to slide.' 
+        if mainBoard == SOLVEDBOARD:
+            msg = 'Solved!'
+
+        drawBoard(mainBoard, msg)
