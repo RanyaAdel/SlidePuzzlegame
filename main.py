@@ -157,7 +157,7 @@ def getBlankPosition(board):
             if board[x][y] == BLANK:
                 return (x, y)
 
-            def makeMove(board, move):
+def makeMove(board, move):
                 
                 blankx, blanky = getBlankPosition(board)
 
