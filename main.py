@@ -175,3 +175,20 @@ def isValidMove(board, move):
            (move == Down and blanky != 0) or \
            (move == Left and blankx != len(board) - 1) or \
            (move == Right and blankx != 0)
+
+def getRandomMove(board, lastMove=None):
+    # start with a full list of all four moves
+    validMoves = [Up, Down, Left, Right]
+
+    # remove moves from the list as they are disqualified
+    if lastMove == Up or not isValidMove(board, Down):
+        validMoves.remove(Down)
+    if lastMove == Down or not isValidMove(board, Up):
+        validMoves.remove(Up)
+    if lastMove == Left or not isValidMove(board, Right):
+        validMoves.remove(Right)
+    if lastMove == Right or not isValidMove(board, Left):
+        validMoves.remove(Left)
+
+    # return a random move from the list of remaining moves
+    return random.choice(validMoves)
