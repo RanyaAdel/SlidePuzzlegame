@@ -198,3 +198,23 @@ def getLeftTopOfTile(tileX, tileY):
     left = X + (tileX * Square_Size) + (tileX - 1)
     top = Y + (tileY * Square_Size) + (tileY - 1)
     return (left, top)
+
+def getSpotClicked(board, x, y):
+    # from the x & y pixel coordinates, get the x & y board coordinates
+    for tileX in range(len(board)):
+        for tileY in range(len(board[0])):
+            left, top = getLeftTopOfTile(tileX, tileY)
+            tileRect = pygame.Rect(left, top, Square_Size, Square_Size)
+            if tileRect.collidepoint(x, y):
+                return (tileX, tileY)
+    return (None, None)
+
+def drawTile(tilex, tiley, number, adjx=0, adjy=0):
+    # draw a tile at board coordinates tilex and tiley, optionally a few
+    # pixels over (determined by adjx and adjy)
+    left, top = getLeftTopOfTile(tilex, tiley)
+    pygame.draw.rect(Display_SURF, Square_Color, (left + adjx, top + adjy, Square_Size, Square_Size))
+    textSurf = Font.render(str(number), True, Text_Color)
+    textRect = textSurf.get_rect()
+    textRect.center = left + int(Square_Size / 2) + adjx, top + int(Square_Size / 2) + adjy
+    Display_SURF.blit(textSurf, textRect)
