@@ -44,12 +44,44 @@ def main():
     SOLVE_SURF, SOLVE_RECT = makeText('Solve', Title_Color, Button_Color, Window_Width - 120, Window_Height - 30)
 
     mainBoard, solutionSeq = generateNewPuzzle(80)
-    SOLVEDBOARD = getStartingBoard() # a solved board is the same as the board in a start state.
-    allMoves = [] # list of moves made from the solved configuration
+    SOLVEDBOARD = getStartingBoard()
+    allMoves = []
     while True:
         slideTo = None
-        msg = 'Click tile or press arrow keys to slide.'
+        msg = 'Click tile .'
         if mainBoard == SOLVEDBOARD:
             msg = 'Solved!'
 
         drawBoard(mainBoard, msg)
+        checkForQuit()
+        for event in pygame.event.get():
+            if event.type == MOUSEBUTTONUP:
+                spotx, spoty = getSpotClicked(mainBoard, event.pos[0], event.pos[1])
+
+                if (spotx, spoty) == (None, None):
+
+
+                    if NEW_RECT.collidepoint(event.pos):
+                        mainBoard, solutionSeq = generateNewPuzzle(80)
+                        allMoves = []
+                    elif SOLVE_RECT.collidepoint(event.pos):
+                        resetAnimation(mainBoard, solutionSeq + allMoves)
+                        allMoves = []
+                else:
+
+                    blankx, blanky = getBlankPosition(mainBoard)
+                    if spotx == blankx + 1 and spoty == blanky:
+                        slideTo = Left
+                    elif spotx == blankx - 1 and spoty == blanky:
+                        slideTo = Right
+                    elif spotx == blankx and spoty == blanky + 1:
+                        slideTo = Up
+                    elif spotx == blankx and spoty == blanky - 1:
+                        slideTo = Down
+
+        if slideTo:
+            slideAnimation(mainBoard, slideTo, 'Click tile .', 8)
+            makeMove(mainBoard, slideTo)
+            allMoves.append(slideTo)
+        pygame.display.update()
+        Speed_Clock.tick(Speed)
