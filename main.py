@@ -218,3 +218,11 @@ def drawTile(tilex, tiley, number, adjx=0, adjy=0):
     textRect = textSurf.get_rect()
     textRect.center = left + int(Square_Size / 2) + adjx, top + int(Square_Size / 2) + adjy
     Display_SURF.blit(textSurf, textRect)
+
+    
+def makeText(text, color, bgcolor, top, left):
+    # create the Surface and Rect objects for some text.
+    textSurf = Font.render(text, True, color, bgcolor)
+    textRect = textSurf.get_rect()
+    textRect.topleft = (top, left)
+    return (textSurf, textRect)
